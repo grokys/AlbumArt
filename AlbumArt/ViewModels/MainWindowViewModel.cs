@@ -17,7 +17,7 @@ namespace AlbumArt.ViewModels
         public MainWindowViewModel()
         {
             _search = new iTunesSearchManager();
-            SearchResults = new ObservableCollection<Album>();
+            SearchResults = new ObservableCollection<AlbumViewModel>();
             this.WhenAnyValue(x => x.SearchText)
                 .Throttle(TimeSpan.FromMilliseconds(300))
                 .ObserveOn(RxApp.MainThreadScheduler)
@@ -30,7 +30,7 @@ namespace AlbumArt.ViewModels
             set => this.RaiseAndSetIfChanged(ref _searchText, value);
         }
 
-        public ObservableCollection<Album> SearchResults { get; }
+        public ObservableCollection<AlbumViewModel> SearchResults { get; }
 
         async void DoSearch(string? s)
         {
@@ -42,7 +42,13 @@ namespace AlbumArt.ViewModels
 
             foreach (var album in result.Albums)
             {
-                SearchResults.Add(album);                    
+                var vm = new AlbumViewModel(album.ArtistName, album.CollectionName, album.ArtworkUrl100);
+                SearchResults.Add(vm);                    
+            }
+
+            foreach (var vm in SearchResults)
+            {
+                await vm.LoadCover();
             }
         }
     }

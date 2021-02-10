@@ -14,10 +14,11 @@
         <ListBox Items="{Binding SearchResults}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding ArtistName}"/>
-                        <TextBlock Text="{Binding CollectionName}"/>
-                    </StackPanel>
+                    <DockPanel>
+                        <Image DockPanel.Dock="Left" Source="{Binding Cover}" Width="100"/>
+                        <TextBlock DockPanel.Dock="Top" Text="{Binding Artist}"/>
+                        <TextBlock  DockPanel.Dock="Top" Text="{Binding Title}"/>
+                    </DockPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
