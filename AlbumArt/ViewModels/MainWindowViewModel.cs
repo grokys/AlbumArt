@@ -43,12 +43,8 @@ namespace AlbumArt.ViewModels
             foreach (var album in result.Albums)
             {
                 var vm = new AlbumViewModel(album.ArtistName, album.CollectionName, album.ArtworkUrl100);
+                _ = vm.LoadCover();
                 SearchResults.Add(vm);                    
-            }
-
-            foreach (var vm in SearchResults)
-            {
-                await vm.LoadCover();
             }
         }
     }
