@@ -6,22 +6,33 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AlbumArt.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
+        x:CompileBindings="True"
         Icon="/Assets/avalonia-logo.ico"
+        ExtendClientAreaToDecorationsHint="True"
+        Background="{x:Null}"
+        TransparencyLevelHint="AcrylicBlur"
         Title="AlbumArt">
 
-    <DockPanel>
-        <TextBox DockPanel.Dock="Top" Text="{Binding SearchText}"/>
-        <ListBox Items="{Binding SearchResults}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel>
-                        <Image DockPanel.Dock="Left" Source="{Binding Cover}" Width="100"/>
-                        <TextBlock DockPanel.Dock="Top" Text="{Binding Artist}"/>
-                        <TextBlock  DockPanel.Dock="Top" Text="{Binding Title}"/>
-                    </DockPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-    </DockPanel>
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial BackgroundSource="Digger"
+                                             TintColor="Black"
+                                             TintOpacity="1"
+                                             MaterialOpacity="0.85" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+        
+        <DockPanel Margin="40">
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+                <TextBlock DockPanel.Dock="Left" Text="My Albums" />
+                <Button HorizontalAlignment="Right" Content="Buy Music" />
+            </DockPanel>
 
+            <Panel>
+                <TextBlock IsVisible="{Binding CollectionEmpty}" Text="Its lonely here, buy some music to get started." VerticalAlignment="Center" HorizontalAlignment="Center" />
+                <ItemsControl Items="{Binding Albums}" />
+            </Panel>
+        </DockPanel>
+    </Panel>
 </Window>

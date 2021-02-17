@@ -33,7 +33,7 @@ namespace AlbumArt.ViewModels
             var data = await client.GetByteArrayAsync(_coverUrl);
 
             await using var s = new MemoryStream(data);
-            Cover = new Bitmap(s);
+            Cover = Bitmap.DecodeToWidth(s, 300);
         }
     }
 }

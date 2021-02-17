@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using iTunesSearch.Library;
@@ -13,15 +14,32 @@ namespace AlbumArt.ViewModels
     {
         private readonly iTunesSearchManager _search;
         private string?_searchText;
+        private bool _collectionEmpty;
         
         public MainWindowViewModel()
         {
             _search = new iTunesSearchManager();
-            SearchResults = new ObservableCollection<AlbumViewModel>();
+            Albums = new ObservableCollection<AlbumViewModel>();
+
+            this.WhenAnyValue(x => x.Albums.Count)
+                .Subscribe(x => CollectionEmpty = x == 0);
+
+            RxApp.MainThreadScheduler.Schedule(LoadAlbums);
+            
             this.WhenAnyValue(x => x.SearchText)
                 .Throttle(TimeSpan.FromMilliseconds(300))
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(DoSearch);
+        }
+
+        private async void LoadAlbums()
+        {
+        }
+
+        public bool CollectionEmpty
+        {
+            get => _collectionEmpty;
+            set => this.RaiseAndSetIfChanged(ref _collectionEmpty, value);
         }
 
         public string? SearchText
@@ -30,11 +48,11 @@ namespace AlbumArt.ViewModels
             set => this.RaiseAndSetIfChanged(ref _searchText, value);
         }
 
-        public ObservableCollection<AlbumViewModel> SearchResults { get; }
+        public ObservableCollection<AlbumViewModel> Albums { get; }
 
         async void DoSearch(string? s)
         {
-            SearchResults.Clear();
+            Albums.Clear();
 
             if (string.IsNullOrEmpty(s)) return;
             
@@ -44,7 +62,7 @@ namespace AlbumArt.ViewModels
             {
                 var vm = new AlbumViewModel(album.ArtistName, album.CollectionName, album.ArtworkUrl100);
                 _ = vm.LoadCover();
-                SearchResults.Add(vm);                    
+                Albums.Add(vm);                    
             }
         }
     }
