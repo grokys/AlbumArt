@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AlbumArt.ViewModels"
+             mc:Ignorable="d"
+             x:DataType="vm:MusicStoreViewModel"
+             x:CompileBindings="True"
+             x:Class="AlbumArt.Views.MusicStoreView">
+    <DockPanel>
+        <TextBox DockPanel.Dock="Top" Watermark="Search..." HorizontalAlignment="Center" MinWidth="400" />
+        
+        <ItemsControl Items="{Binding SearchResults}" />
+    </DockPanel>
+</UserControl>

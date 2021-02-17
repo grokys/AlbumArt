@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AlbumArt.ViewModels"
+             mc:Ignorable="d"
+             x:DataType="vm:AlbumViewModel"
+             x:CompileBindings="True"
+             x:Class="AlbumArt.Views.AlbumView">
+    <StackPanel Spacing="5">
+        <Border CornerRadius="20" ClipToBounds="True" BoxShadow="2 2 5 #55000000">
+            <Panel Width="200" Background="#7FFF22DD">
+                <Image Width="200" Stretch="Uniform" Source="{Binding Cover}" />
+                <Panel Height="200">
+                    <DrawingPresenter Height="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <DrawingPresenter.Drawing>
+                            <DrawingGroup>
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="White"
+                                                     Geometry="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17S7.79 21 10 21 14 19.21 14 17V7H18V3H12Z" />
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingPresenter.Drawing>
+                    </DrawingPresenter>
+                </Panel>
+            </Panel>
+        </Border>
+        <TextBlock Text="Yellow Brick Road" HorizontalAlignment="Center" />
+        <TextBlock Text="Elton John" HorizontalAlignment="Center" />
+    </StackPanel>
+</UserControl>
