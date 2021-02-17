@@ -35,7 +35,7 @@ namespace AlbumArt.ViewModels
             Cover = await Task.Run(() =>
             {
                 using var s = new MemoryStream(data);
-                return Bitmap.DecodeToWidth(s, 600);
+                return Bitmap.DecodeToWidth(s, 400);
             });
         }
     }

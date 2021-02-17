@@ -24,7 +24,7 @@ namespace AlbumArt.ViewModels
 
             this.WhenAnyValue(x => x.SearchText)
                 .Where(x => !string.IsNullOrWhiteSpace(x))
-                .Throttle(TimeSpan.FromMilliseconds(200))
+                .Throttle(TimeSpan.FromMilliseconds(400))
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(DoSearch!);
         }
@@ -56,7 +56,7 @@ namespace AlbumArt.ViewModels
 
             foreach (var album in result.Albums)
             {
-                var vm = new AlbumViewModel(album.ArtistName, album.CollectionName, album.ArtworkUrl100);
+                var vm = new AlbumViewModel(album.ArtistName, album.CollectionName, album.ArtworkUrl100.Replace("100x100bb", "600x600bb"));
                 
                 SearchResults.Add(vm);
             }
