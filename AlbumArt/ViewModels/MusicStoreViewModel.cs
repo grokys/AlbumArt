@@ -1,6 +1,9 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Net.Http;
 using System.Reactive.Linq;
+using System.Threading;
 using iTunesSearch.Library;
 using ReactiveUI;
 
@@ -10,19 +13,23 @@ namespace AlbumArt.ViewModels
     {
         private readonly iTunesSearchManager _search;
         private string? _searchText;
-
+        private bool _isBusy;
+        private HttpClient _client;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public MusicStoreViewModel()
         {
+            _client = new HttpClient();
             _search = new iTunesSearchManager();
 
             this.WhenAnyValue(x => x.SearchText)
-                .Throttle(TimeSpan.FromMilliseconds(300))
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Throttle(TimeSpan.FromMilliseconds(200))
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(DoSearch);
+                .Subscribe(DoSearch!);
         }
 
-        public ObservableCollection<AlbumViewModel> SearchResults { get; }
+        public ObservableCollection<AlbumViewModel> SearchResults { get; } = new();
 
         public string? SearchText
         {
@@ -30,19 +37,45 @@ namespace AlbumArt.ViewModels
             set => this.RaiseAndSetIfChanged(ref _searchText, value);
         }
 
-        private async void DoSearch(string? s)
+        public bool IsBusy
         {
-            SearchResults.Clear();
+            get => _isBusy;
+            set => this.RaiseAndSetIfChanged(ref _isBusy, value);
+        }
 
-            if (string.IsNullOrEmpty(s)) return;
+        private async void DoSearch(string s)
+        {
+            IsBusy = true;
+            SearchResults.Clear();
+            
+            _cancellationTokenSource?.Cancel();
+
+            _cancellationTokenSource = new CancellationTokenSource();
 
             var result = await _search.GetAlbumsAsync(_searchText);
 
             foreach (var album in result.Albums)
             {
                 var vm = new AlbumViewModel(album.ArtistName, album.CollectionName, album.ArtworkUrl100);
-                _ = vm.LoadCover();
+                
                 SearchResults.Add(vm);
+            }
+            
+            LoadCovers(_cancellationTokenSource.Token);
+
+            IsBusy = false;
+        }
+
+        private async void LoadCovers(CancellationToken cancellationToken)
+        {
+            foreach (var album in SearchResults.ToList())
+            {
+                await album.LoadCover(_client);
+
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
             }
         }
     }

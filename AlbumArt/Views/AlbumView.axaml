@@ -7,11 +7,11 @@
              x:DataType="vm:AlbumViewModel"
              x:CompileBindings="True"
              x:Class="AlbumArt.Views.AlbumView">
-    <StackPanel Spacing="5">
-        <Border CornerRadius="20" ClipToBounds="True" BoxShadow="2 2 5 #55000000">
-            <Panel Width="200" Background="#7FFF22DD">
+    <StackPanel Spacing="5" Width="200">
+        <Border CornerRadius="10" ClipToBounds="True" BoxShadow="2 2 5 #55000000">
+            <Panel Background="#7FFF22DD">
                 <Image Width="200" Stretch="Uniform" Source="{Binding Cover}" />
-                <Panel Height="200">
+                <Panel Height="200" IsVisible="{Binding Cover, Converter={x:Static ObjectConverters.IsNull}}">
                     <DrawingPresenter Height="70" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <DrawingPresenter.Drawing>
                             <DrawingGroup>
@@ -25,7 +25,7 @@
                 </Panel>
             </Panel>
         </Border>
-        <TextBlock Text="Yellow Brick Road" HorizontalAlignment="Center" />
-        <TextBlock Text="Elton John" HorizontalAlignment="Center" />
+        <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" />
+        <TextBlock Text="{Binding Artist}" HorizontalAlignment="Center" />
     </StackPanel>
 </UserControl>

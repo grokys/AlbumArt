@@ -32,6 +32,8 @@ namespace AlbumArt.ViewModels
             set => this.RaiseAndSetIfChanged(ref _collectionEmpty, value);
         }
 
+        public MusicStoreViewModel Store { get; } = new MusicStoreViewModel();
+
 
         public ObservableCollection<AlbumViewModel> Albums { get; }
     }

@@ -3,13 +3,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:AlbumArt.ViewModels"
+             xmlns:local="using:AlbumArt.Views"
              mc:Ignorable="d"
              x:DataType="vm:MusicStoreViewModel"
              x:CompileBindings="True"
              x:Class="AlbumArt.Views.MusicStoreView">
     <DockPanel>
-        <TextBox DockPanel.Dock="Top" Watermark="Search..." HorizontalAlignment="Center" MinWidth="400" />
-        
-        <ItemsControl Items="{Binding SearchResults}" />
+        <StackPanel DockPanel.Dock="Top" Width="400" HorizontalAlignment="Center">
+            <TextBox Text="{Binding SearchText}" Watermark="Search..." />
+            <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsBusy}" />
+        </StackPanel>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl Margin="0 20" Items="{Binding SearchResults}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:AlbumView Margin="10" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
     </DockPanel>
 </UserControl>

@@ -19,6 +19,7 @@ namespace AlbumArt.ViewModels
         }
         
         public string Artist { get; }
+        
         public string Title { get; }
 
         public Bitmap? Cover
@@ -27,13 +28,15 @@ namespace AlbumArt.ViewModels
             private set => this.RaiseAndSetIfChanged(ref _cover, value);
         }
 
-        public async Task LoadCover()
+        public async Task LoadCover(HttpClient client)
         {
-            using var client = new HttpClient();
             var data = await client.GetByteArrayAsync(_coverUrl);
 
-            await using var s = new MemoryStream(data);
-            Cover = Bitmap.DecodeToWidth(s, 300);
+            Cover = await Task.Run(() =>
+            {
+                using var s = new MemoryStream(data);
+                return Bitmap.DecodeToWidth(s, 600);
+            });
         }
     }
 }

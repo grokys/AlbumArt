@@ -3,6 +3,7 @@
         xmlns:vm="using:AlbumArt.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:AlbumArt.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AlbumArt.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -19,11 +20,13 @@
                 <ExperimentalAcrylicMaterial BackgroundSource="Digger"
                                              TintColor="Black"
                                              TintOpacity="1"
-                                             MaterialOpacity="0.85" />
+                                             MaterialOpacity="0.65" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
         
-        <DockPanel Margin="40">
+        <local:MusicStoreView DataContext="{Binding Store}" Margin="40" />
+        
+       <!-- <DockPanel Margin="40">
             <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch">
                 <TextBlock DockPanel.Dock="Left" Text="My Albums" />
                 <Button HorizontalAlignment="Right" Content="Buy Music" />
@@ -33,6 +36,6 @@
                 <TextBlock IsVisible="{Binding CollectionEmpty}" Text="Its lonely here, buy some music to get started." VerticalAlignment="Center" HorizontalAlignment="Center" />
                 <ItemsControl Items="{Binding Albums}" />
             </Panel>
-        </DockPanel>
+        </DockPanel>-->
     </Panel>
 </Window>
