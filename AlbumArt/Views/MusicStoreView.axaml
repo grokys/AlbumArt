@@ -14,8 +14,8 @@
             <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsBusy}" />
         </StackPanel>
 
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl Margin="0 20" Items="{Binding SearchResults}">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" Margin="0 20">
+            <ItemsControl Items="{Binding SearchResults}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal" />

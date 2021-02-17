@@ -3,10 +3,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:AlbumArt.ViewModels"
+             xmlns:local="using:AlbumArt.Views"
              mc:Ignorable="d"
              x:DataType="vm:AlbumViewModel"
              x:CompileBindings="True"
              x:Class="AlbumArt.Views.AlbumView">
+    <UserControl.Styles>
+        <Style Selector="local|AlbumView Button#BuyButton">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="local|AlbumView:pointerover Button#BuyButton">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+    </UserControl.Styles>
     <StackPanel Spacing="5" Width="200">
         <Border CornerRadius="10" ClipToBounds="True" BoxShadow="2 2 5 #55000000">
             <Panel Background="#7FFF22DD">
@@ -23,6 +32,7 @@
                         </DrawingPresenter.Drawing>
                     </DrawingPresenter>
                 </Panel>
+                <Button x:Name="BuyButton" Background="#7FFF22DD" Content="Buy Now" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="5" />
             </Panel>
         </Border>
         <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" />
