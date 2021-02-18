@@ -12,6 +12,7 @@
         ExtendClientAreaToDecorationsHint="True"
         Background="{x:Null}"
         TransparencyLevelHint="AcrylicBlur"
+        WindowStartupLocation="CenterScreen"
         Title="AlbumArt">
 
     <Panel>

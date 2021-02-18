@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
+using System.Windows.Input;
 using iTunesSearch.Library;
 using ReactiveUI;
 
@@ -31,8 +32,20 @@ namespace AlbumArt.ViewModels
             
             Ok = ReactiveCommand.Create(() => { });
         }
+
+        public void Buy(AlbumViewModel album)
+        {
+            Bought = album;
+
+            var okCommand = Ok as ICommand;
+            
+            if (okCommand.CanExecute(null))
+            {
+                okCommand.Execute(null);
+            }
+        }
         
-        public string? Text { get; set; }
+        public AlbumViewModel? Bought { get; private set; }
         
         public ReactiveCommand<Unit, Unit> Ok { get; }
 
@@ -63,7 +76,7 @@ namespace AlbumArt.ViewModels
 
             foreach (var album in result.Albums)
             {
-                var vm = new AlbumViewModel(album.ArtistName, album.CollectionName, album.ArtworkUrl100.Replace("100x100bb", "600x600bb"));
+                var vm = new StoreAlbumViewModel(this, album.ArtistName, album.CollectionName, album.ArtworkUrl100.Replace("100x100bb", "600x600bb"));
                 
                 SearchResults.Add(vm);
             }

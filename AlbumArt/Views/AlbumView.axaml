@@ -5,7 +5,7 @@
              xmlns:vm="using:AlbumArt.ViewModels"
              xmlns:local="using:AlbumArt.Views"
              mc:Ignorable="d"
-             x:DataType="vm:AlbumViewModel"
+             x:DataType="vm:StoreAlbumViewModel"
              x:CompileBindings="True"
              x:Class="AlbumArt.Views.AlbumView">
     <UserControl.Styles>
@@ -32,7 +32,7 @@
                         </DrawingPresenter.Drawing>
                     </DrawingPresenter>
                 </Panel>
-                <Button x:Name="BuyButton" Background="#7FFF22DD" Content="Buy Now" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="5" />
+                <Button x:Name="BuyButton" Command="{Binding BuyCommand}" Background="#7FFF22DD" Content="Buy Now" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="5" />
             </Panel>
         </Border>
         <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" />

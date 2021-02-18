@@ -13,7 +13,7 @@ namespace AlbumArt.Views
         {
             InitializeComponent();
             
-            this.WhenActivated(d => d(ViewModel.Ok.Subscribe(_ => Close(ViewModel.Text))));
+            this.WhenActivated(d => d(ViewModel.Ok.Subscribe(_ => Close(ViewModel.Bought))));
         }
 
         private void InitializeComponent()

@@ -24,12 +24,12 @@ namespace AlbumArt.Views
             AvaloniaXamlLoader.Load(this);
         }
         
-        private async Task ShowDialog(InteractionContext<MusicStoreViewModel, string?> interaction)
+        private async Task ShowDialog(InteractionContext<MusicStoreViewModel, AlbumViewModel?> interaction)
         {
             var dialog = new DialogWindow();
             dialog.DataContext = interaction.Input;
             
-            var result = await dialog.ShowDialog<string?>(this);
+            var result = await dialog.ShowDialog<AlbumViewModel?>(this);
             interaction.SetOutput(result);
         }
     }

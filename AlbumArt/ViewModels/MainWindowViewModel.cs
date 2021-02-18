@@ -23,7 +23,7 @@ namespace AlbumArt.ViewModels
             OpenDialog = ReactiveCommand.CreateFromTask(OpenDialogAsync);
 
             // The ShowDialog interaction requests the UI to show the dialog.
-            ShowDialog = new Interaction<MusicStoreViewModel, string?>();
+            ShowDialog = new Interaction<MusicStoreViewModel, AlbumViewModel?>();
 
             this.WhenAnyValue(x => x.Albums.Count)
                 .Subscribe(x => CollectionEmpty = x == 0);
@@ -32,11 +32,12 @@ namespace AlbumArt.ViewModels
         }
         
         public ReactiveCommand<Unit, Unit> OpenDialog { get; }
-        public Interaction<MusicStoreViewModel, string?> ShowDialog { get; }
+        public Interaction<MusicStoreViewModel, AlbumViewModel?> ShowDialog { get; }
         
         private async Task OpenDialogAsync()
         {
-            var vm = new MusicStoreViewModel { Text = "Hello Dialog!" };
+            var vm = new MusicStoreViewModel();
+            
             var result = await ShowDialog.Handle(vm);
 
             if (result is object)
