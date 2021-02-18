@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 using iTunesSearch.Library;
@@ -27,7 +28,13 @@ namespace AlbumArt.ViewModels
                 .Throttle(TimeSpan.FromMilliseconds(400))
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(DoSearch!);
+            
+            Ok = ReactiveCommand.Create(() => { });
         }
+        
+        public string? Text { get; set; }
+        
+        public ReactiveCommand<Unit, Unit> Ok { get; }
 
         public ObservableCollection<AlbumViewModel> SearchResults { get; } = new();
 
