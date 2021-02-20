@@ -33,7 +33,20 @@
 
             <Panel>
                 <TextBlock IsVisible="{Binding CollectionEmpty}" Text="Its lonely here, buy some music to get started." VerticalAlignment="Center" HorizontalAlignment="Center" />
-                <ItemsControl Items="{Binding Albums}" />
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" Margin="0 10">
+                    <ItemsControl Items="{Binding Albums}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <local:AlbumView Margin="10" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
             </Panel>
         </DockPanel>
     </Panel>

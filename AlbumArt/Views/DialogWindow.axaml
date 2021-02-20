@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="using:AlbumArt.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="550"
-        Width="960" Height="550" ExtendClientAreaToDecorationsHint="True"
+        Width="1100" Height="550" ExtendClientAreaToDecorationsHint="True"
         TransparencyLevelHint="AcrylicBlur"
         Background="{x:Null}"
         WindowStartupLocation="CenterOwner"

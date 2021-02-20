@@ -40,9 +40,9 @@ namespace AlbumArt.ViewModels
             
             var result = await ShowDialog.Handle(vm);
 
-            if (result is object)
+            if (result is AlbumViewModel album)
             {
-                // Here's the result.
+                Albums.Add(album);
             }
         }
 
