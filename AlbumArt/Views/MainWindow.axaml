@@ -13,6 +13,7 @@
         Background="{x:Null}"
         TransparencyLevelHint="AcrylicBlur"
         WindowStartupLocation="CenterScreen"
+        Width="1200" Height="800"
         Title="AlbumArt">
 
     <Panel>
