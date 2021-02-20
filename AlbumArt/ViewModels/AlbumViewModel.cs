@@ -3,30 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using ReactiveUI;
 
 namespace AlbumArt.ViewModels
 {
-    public class AlbumData
-    {
-        public string Artist { get; set; }
-        
-        public string Title { get; set; }
-        
-        public static async Task SaveToStreamAsync(AlbumData data, Stream stream)
-        {
-            await JsonSerializer.SerializeAsync(stream, data);
-        }
-
-        public static async Task<AlbumData> LoadFromStream(Stream stream)
-        {
-            return await JsonSerializer.DeserializeAsync<AlbumData>(stream);
-        }
-    }
-    
     public class AlbumViewModel : ViewModelBase
     {
         private readonly string _coverUrl;
@@ -34,7 +16,7 @@ namespace AlbumArt.ViewModels
 
         public static AlbumViewModel FromAlbumData(AlbumData data)
         {
-            return new AlbumViewModel(data.Artist, data.Title, String.Empty);
+            return new AlbumViewModel(data.Artist!, data.Title!, String.Empty);
         }
         
         public AlbumViewModel(string artist, string title, string coverUrl)
@@ -95,7 +77,7 @@ namespace AlbumArt.ViewModels
                 {
                     using (var fs = File.OpenRead(file))
                     {
-                        results.Add(AlbumViewModel.FromAlbumData(await JsonSerializer.DeserializeAsync<AlbumData>(fs)));
+                        results.Add(AlbumViewModel.FromAlbumData((await JsonSerializer.DeserializeAsync<AlbumData>(fs))!));
                     }
                 }
             }
