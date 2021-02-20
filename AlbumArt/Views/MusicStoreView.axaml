@@ -13,9 +13,11 @@
             <TextBox Text="{Binding SearchText}" Watermark="Search..." />
             <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsBusy}" />
         </StackPanel>
+        
+        <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Content="Buy Album" Command="{Binding Ok}" />
 
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" Margin="0 20">
-            <ItemsControl Items="{Binding SearchResults}">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" Margin="0 10">
+            <ListBox Items="{Binding SearchResults}" SelectedItem="{Binding SelectedAlbum}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal" />
@@ -26,7 +28,7 @@
                         <local:AlbumView Margin="10" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            </ListBox>
         </ScrollViewer>
 
     </DockPanel>

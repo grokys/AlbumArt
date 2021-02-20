@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
-using System.Windows.Input;
 using iTunesSearch.Library;
 using ReactiveUI;
 
@@ -16,8 +15,9 @@ namespace AlbumArt.ViewModels
         private readonly iTunesSearchManager _search;
         private string? _searchText;
         private bool _isBusy;
-        private HttpClient _client;
-        private CancellationTokenSource _cancellationTokenSource;
+        private readonly HttpClient _client;
+        private CancellationTokenSource? _cancellationTokenSource;
+        private AlbumViewModel? _selectedAlbum;
 
         public MusicStoreViewModel()
         {
@@ -30,26 +30,18 @@ namespace AlbumArt.ViewModels
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(DoSearch!);
             
-            Ok = ReactiveCommand.Create(() => { });
+            Ok = ReactiveCommand.Create(() => SelectedAlbum);
         }
 
-        public void Buy(AlbumViewModel album)
-        {
-            Bought = album;
-
-            var okCommand = Ok as ICommand;
-            
-            if (okCommand.CanExecute(null))
-            {
-                okCommand.Execute(null);
-            }
-        }
-        
-        public AlbumViewModel? Bought { get; private set; }
-        
-        public ReactiveCommand<Unit, Unit> Ok { get; }
+        public ReactiveCommand<Unit, AlbumViewModel?> Ok { get; }
 
         public ObservableCollection<AlbumViewModel> SearchResults { get; } = new();
+        
+        public AlbumViewModel? SelectedAlbum
+        {
+            get => _selectedAlbum;
+            set => this.RaiseAndSetIfChanged(ref _selectedAlbum, value);
+        }
 
         public string? SearchText
         {
@@ -76,7 +68,7 @@ namespace AlbumArt.ViewModels
 
             foreach (var album in result.Albums)
             {
-                var vm = new StoreAlbumViewModel(this, album.ArtistName, album.CollectionName, album.ArtworkUrl100.Replace("100x100bb", "600x600bb"));
+                var vm = new AlbumViewModel(album.ArtistName, album.CollectionName, album.ArtworkUrl100.Replace("100x100bb", "600x600bb"));
                 
                 SearchResults.Add(vm);
             }
