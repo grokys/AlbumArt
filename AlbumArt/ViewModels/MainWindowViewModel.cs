@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using iTunesSearch.Library.Models;
 using ReactiveUI;
 
 namespace AlbumArt.ViewModels
@@ -40,14 +38,30 @@ namespace AlbumArt.ViewModels
             
             var result = await ShowDialog.Handle(vm);
 
-            if (result is AlbumViewModel album)
+            if (result is { } album)
             {
                 Albums.Add(album);
+            }
+        }
+        
+        private async void LoadCovers()
+        {
+            foreach (var album in Albums.ToList())
+            {
+                await album.LoadCover(null);
             }
         }
 
         private async void LoadAlbums()
         {
+            var albums = await AlbumViewModel.LoadCached();
+
+            foreach (var album in albums)
+            {
+                Albums.Add(album);
+            }
+            
+            LoadCovers();
         }
 
         public bool CollectionEmpty

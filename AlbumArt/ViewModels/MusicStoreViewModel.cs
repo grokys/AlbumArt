@@ -30,7 +30,16 @@ namespace AlbumArt.ViewModels
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(DoSearch!);
             
-            Ok = ReactiveCommand.Create(() => SelectedAlbum);
+            Ok = ReactiveCommand.CreateFromTask(async () =>
+            {
+                if (SelectedAlbum is { })
+                {
+                    await SelectedAlbum.SaveToDiskAsync();
+                    return SelectedAlbum;
+                }
+
+                return null;
+            });
         }
 
         public ReactiveCommand<Unit, AlbumViewModel?> Ok { get; }
